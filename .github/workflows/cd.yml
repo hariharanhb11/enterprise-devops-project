@@ -1,0 +1,52 @@
+name: Enterprise CD Pipeline
+
+on:
+
+  workflow_run:
+    workflows:
+      - Enterprise CI Pipeline
+
+    types:
+      - completed
+
+jobs:
+
+  deploy:
+
+    name: Localhost Deployment
+
+    runs-on: self-hosted
+
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Show Docker Version
+        run: docker --version
+
+      - name: Stop Existing Containers
+        run: docker compose down
+
+      - name: Remove Unused Docker Images
+        run: docker system prune -af
+
+      - name: Build and Deploy Containers
+        run: docker compose up --build -d
+
+      - name: Wait for Containers
+        run: timeout /t 20
+
+      - name: Verify Running Containers
+        run: docker ps
+
+      - name: Frontend Health Check
+        run: curl http://localhost:3000
+
+      - name: Backend Health Check
+        run: curl http://localhost:5000
+
+      - name: Deployment Success
+        run: echo "Enterprise Deployment Successful"
