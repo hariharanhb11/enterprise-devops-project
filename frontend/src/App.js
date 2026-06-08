@@ -1,86 +1,142 @@
-import './App.css';
+import "./App.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function App() {
 
-  const services = [
-    {
-      name: "Frontend",
-      status: "Running",
-      color: "bg-green-500"
-    },
-    {
-      name: "Backend",
-      status: "Healthy",
-      color: "bg-blue-500"
-    },
-    {
-      name: "Database",
-      status: "Connected",
-      color: "bg-purple-500"
-    },
-    {
-      name: "CI/CD",
-      status: "Success",
-      color: "bg-yellow-500"
+  const [health, setHealth] = useState({});
+  const [pipeline, setPipeline] = useState({});
+
+  useEffect(() => {
+
+    fetchHealth();
+    fetchPipeline();
+
+  }, []);
+
+  const fetchHealth = async () => {
+
+    try {
+
+      const res = await axios.get(
+        "http://localhost:5000/api/health"
+      );
+
+      setHealth(res.data);
+
+    } catch (error) {
+
+      console.log(error);
+
     }
-  ];
+
+  };
+
+  const fetchPipeline = async () => {
+
+    try {
+
+      const res = await axios.get(
+        "http://localhost:5000/api/pipeline"
+      );
+
+      setPipeline(res.data);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100">
 
-      <nav className="bg-black text-white p-5 shadow-lg">
+    <div className="container">
 
-        <div className="container mx-auto flex justify-between">
+      <header className="hero">
 
-          <h1 className="text-3xl font-bold">
-            Enterprise DevOps Dashboard page
-          </h1>
+        <h1>Enterprise DevOps Dashboard</h1>
 
-          <div className="hidden md:flex gap-6">
-            <span>Dev</span>
-            <span>QA</span>
-            <span>Staging</span>
-            <span>Production</span>
-          </div>
+        <p>
+          GitHub Actions + Docker + Self Hosted Runner
+        </p>
+
+      </header>
+
+      <div className="cards">
+
+        <div className="card">
+
+          <h2>Backend Health</h2>
+
+          <p>
+            Status:
+            <span className="success">
+              {health.status}
+            </span>
+          </p>
+
+          <p>
+            Service:
+            <span>
+              {health.service}
+            </span>
+          </p>
+
+          <p>
+            Environment:
+            <span>
+              {health.environment}
+            </span>
+          </p>
 
         </div>
 
-      </nav>
+        <div className="card">
 
-      <div className="container mx-auto p-6">
+          <h2>CI/CD Pipeline</h2>
 
-        <h2 className="text-2xl font-bold mb-6">
-          Infrastructure Status
-        </h2>
+          <p>
+            Pipeline:
+            <span>
+              {pipeline.pipeline}
+            </span>
+          </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <p>
+            Status:
+            <span className="running">
+              {pipeline.status}
+            </span>
+          </p>
 
-          {services.map((service, index) => (
+          <div className="stages">
 
-            <div
-              key={index}
-              className="bg-white rounded-xl shadow-lg p-6"
-            >
-
-              <div className={`w-4 h-4 rounded-full ${service.color}`}></div>
-
-              <h3 className="text-xl font-bold mt-4">
-                {service.name}
-              </h3>
-
-              <p className="text-gray-600 mt-2">
-                {service.status}
-              </p>
-
+            <div className="stage">
+              Build
             </div>
 
-          ))}
+            <div className="stage">
+              Test
+            </div>
+
+            <div className="stage">
+              Docker
+            </div>
+
+            <div className="stage">
+              Deploy
+            </div>
+
+          </div>
 
         </div>
 
       </div>
 
     </div>
+
   );
 }
 
