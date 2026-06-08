@@ -33,7 +33,7 @@ function App() {
         <div className="container mx-auto flex justify-between">
 
           <h1 className="text-3xl font-bold">
-            Enterprise DevOps Dashboard
+            Enterprise DevOps Dashboard page
           </h1>
 
           <div className="hidden md:flex gap-6">
