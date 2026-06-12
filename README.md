@@ -1,4 +1,4 @@
-# 🚀 Enterprise DevOps CI/CD Pipeline Project
+#  Enterprise DevOps CI/CD Pipeline Project
 
 ## Project Overview
 
