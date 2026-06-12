@@ -56,7 +56,7 @@ function App() {
 
       <header className="hero">
 
-        <h1>Enterprise DevOps Dashboard - Webpage </h1>
+        <h1>Enterprise DevOps Dashboard Page</h1>
 
         <p>
           GitHub Actions + Docker + Self Hosted Runner
