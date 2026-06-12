@@ -10,32 +10,46 @@ The objective is to automate the complete software delivery lifecycle from code 
 
 ## Architecture
 
-Developer
-   |
-   v
-GitHub Repository
-   |
-   v
-GitHub Actions CI Pipeline
-   |
-   |-- Code Quality Check
-   |-- Unit Testing
-   |-- Docker Image Build
-   |-- Security Scan (Trivy)
-   |
-   v
-GitHub Actions CD Pipeline
-   |
-   |-- Deploy Application
-   |-- Smoke Test
-   |
-   v
-Docker / Kubernetes
-   |
-   v
-React Frontend + Node.js Backend + MongoDB
-
----
+```text
++-------------+
+|  Developer  |
++-------------+
+       |
+       v
++----------------------+
+|  GitHub Repository   |
++----------------------+
+       |
+       v
++----------------------+
+| GitHub Actions CI    |
++----------------------+
+| 1. Code Quality      |
+| 2. Unit Testing      |
+| 3. Docker Build      |
+| 4. Trivy Scan        |
++----------------------+
+       |
+       v
++----------------------+
+| GitHub Actions CD    |
++----------------------+
+| 1. Deploy Containers |
+| 2. Smoke Testing     |
++----------------------+
+       |
+       v
++----------------------+
+| Docker Environment   |
++----------------------+
+       |
+       v
++----------------------+
+| React Frontend       |
+| Node.js Backend      |
+| MongoDB Database     |
++----------------------+
+```
 
 ## Technology Stack
 
