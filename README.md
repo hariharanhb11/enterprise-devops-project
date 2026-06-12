@@ -1,16 +1,12 @@
-# Enterprise DevOps CI/CD Pipeline Project
+Enterprise DevOps CI/CD Pipeline Project
 
-## Project Overview
+Project Overview
 
-This project demonstrates an end-to-end Enterprise DevOps CI/CD Pipeline using GitHub Actions, Docker, MongoDB, React, Node.js, Kubernetes, Helm, SonarQube, and Trivy.
+This project demonstrates an end-to-end DevOps CI/CD Pipeline using GitHub Actions, Docker, React, Node.js, MongoDB, and a Self-Hosted GitHub Runner.
 
-The objective is to automate the complete software delivery lifecycle from code commit to deployment using modern DevOps practices.
+The pipeline automatically builds, tests, containerizes, and deploys the application to a local Docker environment whenever code changes are pushed to GitHub.
 
----
-
-## Architecture
-
-```text
+Architecture
 +-------------+
 |  Developer  |
 +-------------+
@@ -24,10 +20,9 @@ The objective is to automate the complete software delivery lifecycle from code 
 +----------------------+
 | GitHub Actions CI    |
 +----------------------+
-| 1. Code Quality      |
+| 1. Code Validation   |
 | 2. Unit Testing      |
 | 3. Docker Build      |
-| 4. Trivy Scan        |
 +----------------------+
        |
        v
@@ -36,6 +31,11 @@ The objective is to automate the complete software delivery lifecycle from code 
 +----------------------+
 | 1. Deploy Containers |
 | 2. Smoke Testing     |
++----------------------+
+       |
+       v
++----------------------+
+| Self Hosted Runner   |
 +----------------------+
        |
        v
@@ -49,38 +49,24 @@ The objective is to automate the complete software delivery lifecycle from code 
 | Node.js Backend      |
 | MongoDB Database     |
 +----------------------+
-```
-
-## Technology Stack
-
-### Frontend
-- React.js
-- Axios
-- CSS
-
-### Backend
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-
-### DevOps Tools
-- Git
-- GitHub
-- GitHub Actions
-- Docker
-- Docker Compose
-- Self Hosted Runner
-- Kubernetes
-- Helm
-- SonarQube
-- Trivy
-
----
-
-## Project Structure
-
-```text
+Technology Stack
+Frontend
+React.js
+Axios
+CSS
+Backend
+Node.js
+Express.js
+MongoDB
+Mongoose
+DevOps Tools
+Git
+GitHub
+GitHub Actions
+Docker
+Docker Compose
+Self Hosted Runner
+Project Structure
 enterprise-devops-project
 │
 ├── frontend/
@@ -93,275 +79,166 @@ enterprise-devops-project
 │   ├── Dockerfile
 │   └── package.json
 │
-├── k8s/
-│   ├── frontend-deployment.yaml
-│   ├── backend-deployment.yaml
-│   └── mongodb-deployment.yaml
-│
-├── helm/
-│
 ├── .github/
 │   └── workflows/
 │       ├── ci.yml
 │       └── cd.yml
 │
 ├── docker-compose.yml
+│
 └── README.md
-```
-
----
-
-## Application Features
-
-- Enterprise DevOps Dashboard
-- React Frontend
-- Node.js REST APIs
-- MongoDB Database Integration
-- Dockerized Application
-- CI/CD Automation
-- Security Scanning
-- Kubernetes Deployment
-- Automated Localhost Deployment
-
----
-
-## CI Pipeline
-
-The CI pipeline is triggered automatically on:
-
-- Push to feature branches
-- Push to develop branch
-- Pull Request creation
-- Merge to main branch
-
-### CI Stages
-
-1. Source Code Checkout
-2. Dependency Installation
-3. Code Quality Validation
-4. Unit Testing
-5. Docker Image Build
-6. Security Scan using Trivy
-7. Artifact Validation
-
----
-
-## CD Pipeline
-
-The CD pipeline starts automatically after CI success.
-
-### CD Stages
-
-1. Checkout Source Code
-2. Stop Existing Containers
-3. Remove Old Images
-4. Build New Images
-5. Deploy Containers
-6. Health Checks
-7. Smoke Testing
-
----
-
-## Git Branch Strategy
-
-### Feature Branch
-
-```bash
+Application Features
+Responsive React Dashboard
+Node.js REST API
+MongoDB Integration
+Dockerized Application
+Automated CI/CD Pipeline
+Automatic Localhost Deployment
+Self-Hosted Runner Deployment
+Git Branch Strategy
+Feature Branch
 feature/*
-```
 
-Developer changes are committed here.
+Developer changes are implemented here.
 
-### Development Branch
-
-```bash
+Development Branch
 develop
-```
 
-Integration testing environment.
+Used for integration testing.
 
-### Main Branch
-
-```bash
+Main Branch
 main
-```
 
 Production-ready code.
 
----
+CI Pipeline
 
-## Running Locally
+The CI pipeline runs automatically on:
 
-### Clone Repository
-
-```bash
-git clone <repository-url>
-```
-
-### Build and Start Application
-
-```bash
-docker compose up --build -d
-```
-
-### View Running Containers
-
-```bash
-docker ps
-```
-
----
-
-## Application URLs
-
-Frontend
-
-```text
-http://localhost:3000
-```
-
-Backend
-
-```text
-http://localhost:5000
-```
-
-Backend Health Check
-
-```text
-http://localhost:5000/api/health
-```
-
-MongoDB
-
-```text
-mongodb://localhost:27017
-```
-
-SonarQube
-
-```text
-http://localhost:9000
-```
-
----
-
-## Security
-
-### Trivy
-
-Used to scan Docker images for:
-
-- Vulnerabilities
-- Misconfigurations
-- Secrets
-- Security Risks
-
-### SonarQube
-
-Used for:
-
-- Code Quality Analysis
-- Code Smell Detection
-- Technical Debt Analysis
-- Security Hotspot Detection
-
----
-
-## Kubernetes Deployment
-
-Deploy application:
-
-```bash
-kubectl apply -f k8s/
-```
-
-Check resources:
-
-```bash
-kubectl get all
-```
-
----
-
-## Helm Deployment
-
-Install chart:
-
-```bash
-helm install enterprise-app ./helm
-```
-
-Upgrade deployment:
-
-```bash
-helm upgrade enterprise-app ./helm
-```
-
-Rollback deployment:
-
-```bash
-helm rollback enterprise-app 1
-```
-
----
-
-## Rollback Strategy
-
-In case of deployment failure:
-
-### Docker
-
-```bash
-docker compose down
-docker compose up -d
-```
-
-### Helm
-
-```bash
-helm rollback enterprise-app 1
-```
-
----
-
-## CI/CD Workflow
-
-Code Commit
-↓
-GitHub Actions Trigger
-↓
+Push to feature branches
+Push to develop branch
+Pull Requests
+Merge to main branch
+CI Stages
+Source Code Checkout
+Install Dependencies
 Code Validation
-↓
 Unit Testing
-↓
-Docker Build
-↓
-Trivy Scan
-↓
-Deployment
-↓
+Docker Image Build
+CD Pipeline
+
+The CD pipeline starts automatically after successful CI execution.
+
+CD Stages
+Checkout Repository
+Stop Existing Containers
+Remove Old Docker Images
+Build New Docker Images
+Deploy Containers
+Health Verification
 Smoke Testing
-↓
+Running Locally
+Clone Repository
+git clone <repository-url>
+cd enterprise-devops-project
+Start Application
+docker compose up --build -d
+View Running Containers
+docker ps
+Stop Application
+docker compose down
+Application URLs
+Frontend
+http://localhost:3000
+Backend
+http://localhost:5000
+Health Endpoint
+http://localhost:5000/api/health
+MongoDB
+mongodb://localhost:27017
+MongoDB Usage
+
+MongoDB acts as the application's database.
+
+Current implementation stores:
+
+Dashboard data
+Application records
+API-generated data
+
+MongoDB runs as a Docker container and is automatically started through Docker Compose.
+
+View MongoDB container:
+
+docker ps
+
+Access MongoDB shell:
+
+docker exec -it <mongodb-container-name> mongosh
+
+Show databases:
+
+show dbs
+
+Use application database:
+
+use enterpriseDB
+
+View collections:
+
+show collections
+Self Hosted Runner
+
+The deployment pipeline uses a GitHub Self-Hosted Runner running on Windows.
+
+Benefits:
+
+Localhost deployment
+Full control over deployment environment
+No cloud infrastructure required
+Faster deployment testing
+CI/CD Workflow
+Developer Commit
+       |
+       v
+GitHub Repository
+       |
+       v
+GitHub Actions CI
+       |
+       v
+Code Validation
+       |
+       v
+Unit Testing
+       |
+       v
+Docker Image Build
+       |
+       v
+GitHub Actions CD
+       |
+       v
+Self Hosted Runner
+       |
+       v
+Docker Deployment
+       |
+       v
+Smoke Testing
+       |
+       v
 Application Available
+DevOps Concepts Demonstrated
+Continuous Integration (CI)
+Continuous Deployment (CD)
+Git Branching Strategy
+Docker Containerization
+Infrastructure Automation
+Automated Testing
+Automated Deployment
+Self-Hosted Runners
+Local Environment Deployments
+Project Outcome
 
----
-
-## Key DevOps Concepts Demonstrated
-
-- Continuous Integration
-- Continuous Deployment
-- Infrastructure as Code
-- Containerization
-- Security Scanning
-- Branching Strategy
-- Automated Testing
-- Automated Deployment
-- Rollback Mechanism
-- Kubernetes Orchestration
-
----
-
-## Project Outcome
-
-This project successfully implements an enterprise-grade CI/CD pipeline that automates build, testing, security validation, containerization, deployment, and application verification using modern DevOps practices.
+This project demonstrates a complete DevOps workflow where application changes are automatically built, tested, containerized, and deployed to a local Docker environment using GitHub Actions and a Self-Hosted Runner.
